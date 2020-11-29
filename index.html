@@ -1,0 +1,134 @@
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Libraries</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/site.css" />
+    <script src="js/vue.js"></script>
+  </head>
+  <body>
+    <div id="app" class="container-fluid">
+      <div class="row mt-5">
+        <div class="col-sm-12 col-md-4">
+          <div class="card">
+            <h5 class="card-header">Bilgiler</h5>
+            <div class="card-body">
+              <div class="form-group">
+                <label for="firstName">Adı</label>
+                <input
+                  type="text"
+                  v-model="firstName"
+                  sergen="Can"
+                  class="form-control"
+                  id="firstName"
+                  autocomplete="off"
+                />
+                <small
+                  class="form-text text-sm-left text-danger"
+                  v-if="validation.firstNameIsInvalid"
+                  >Bu alan gereklidir</small
+                >
+              </div>
+              <div class="form-group">
+                <label for="lastName">Soyadı</label>
+                <input
+                  type="text"
+                  v-model="lastName"
+                  class="form-control"
+                  id="lastName"
+                  autocomplete="off"
+                />
+                <small
+                  class="form-text text-sm-left text-danger"
+                  v-if="validation.lastNameIsInvalid"
+                  >Bu alan gereklidir</small
+                >
+              </div>
+              <div class="form-group">
+                <label for="gender">Cinsiyet</label>
+                <select id="gender" v-model="gender" class="form-control">
+                  <option value="null">Seçiniz</option>
+                  <option value="male">Erkek</option>
+                  <option value="female">Kadın</option>
+                </select>
+                <small
+                  class="form-text text-sm-left text-danger"
+                  v-if="validation.genderIsInvalid"
+                  >Bu alan gereklidir</small
+                >
+              </div>
+              <div class="form-group">
+                <label for="city">Şehir</label>
+                <select
+                  id="city"
+                  class="form-control"
+                  v-on:change="cityChanged"
+                >
+                  <option :selected="selectedCity == null" value="null">
+                    Seçiniz
+                  </option>
+                  <option v-for="city in cities" :value="city.code">
+                    {{city.label}}
+                  </option>
+                </select>
+                <small
+                  class="form-text text-sm-left text-danger"
+                  v-if="validation.cityIsInvalid"
+                  >Bu alan gereklidir</small
+                >
+              </div>
+              <button
+                class="btn btn-primary w-25 float-right"
+                v-on:click="save"
+              >
+                Ekle
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-8">
+          <div class="card">
+            <h5 class="card-header">Kayıtlar</h5>
+            <div class="card-body">
+              <div class="alert alert-warning" v-if="records.length == 0">
+                Hiç kayıt bulunamadı. Soldaki panelden kayıt ekleyebilirsiniz!
+              </div>
+              <div class="row row-cols-4">
+                <div class="col" v-for="(r, i) in records">
+                  <div class="card mb-4">
+                    <div class="card-body text-center">
+                      <div class="row">
+                        <div class="col-md-3 col-sm-12">
+                          <img
+                            class="user-photo"
+                            :src="r.imagePath"
+                            alt="card image"
+                          />
+                        </div>
+                        <div class="col-md-9 col-sm-12">
+                          <span class="d-block">{{r.fullName}}</span>
+                          <span class="d-block">{{r.city}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-footer text-muted">
+                      <button
+                        class="btn btn-danger float-right"
+                        v-on:click="remove(i)"
+                      >
+                        Sil
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/sample.js"></script>
+  </body>
+</html>
